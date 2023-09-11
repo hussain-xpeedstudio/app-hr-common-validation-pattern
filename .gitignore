@@ -1,0 +1,23 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/react-font/node_modules
+/react-font/.pnp
+/react-font/.pnp.js
+
+# testing
+/react-font/coverage
+
+# production
+/react-font/build
+
+# misc
+/react-font/.DS_Store
+/react-font/.env.local
+/react-font/.env.development.local
+/react-font/.env.test.local
+/react-font/.env.production.local
+
+/react-font/npm-debug.log*
+/react-font/yarn-debug.log*
+/react-font/yarn-error.log*
