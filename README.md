@@ -15,7 +15,7 @@ Before you get started, ensure you have the following prerequisites:
 
    ```shell
    git clone https://github.com/hussain-xpeedstudio/app-hr-common-validation-pattern.git
-   cd lara-api-react-font-validation
+   cd app-hr-common-validation-pattern
 
 
 
