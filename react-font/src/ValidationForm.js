@@ -7,7 +7,8 @@ function ValidationForm() {
   const [user_email, setUserEmail] = useState('');
   const validator = useRef(null);
   const [apiData, setApiData] = useState(null);
-
+  const [profile_image, setProfileImage] = useState('');
+  const [errors, setErrors] = useState({});
   useEffect(() => {
     axios
       .get('http://localhost:8888/api/getValidationRules')
@@ -21,6 +22,30 @@ function ValidationForm() {
       })
       .catch((error) => console.error('API Error:', error));
   }, []);
+  const handleProfileImage = (e) => {
+    const selectedFile = e.target.files[0];
+    const profileImageRules = apiData.validationRules.profile_image || {};
+    const allowedExtensions = (apiData.validationRules.profile_image.match(/mimes:([^|]+)/) || [])[1];
+    console.log(allowedExtensions);
+    const maxSize = profileImageRules.max ? profileImageRules.max * 1024 : Infinity; 
+    const validationErrors = {};
+    if (profileImageRules.required && !selectedFile) {
+      validationErrors.profile_image = 'Profile image is required.';
+    } else if (selectedFile) {
+      const fileExtension = selectedFile.name.split('.').pop().toLowerCase();  
+      if (!allowedExtensions.includes(fileExtension)) {
+        validationErrors.profile_image = 'Invalid file type for profile image. Only  '+ allowedExtensions.split(',') +'  files are allowed.';
+      } else if (selectedFile.size > maxSize) {
+        validationErrors.profile_image = 'File size exceeds the maximum limit.';
+      }
+    }
+  
+    setErrors({ ...errors, profile_image: validationErrors.profile_image });
+  
+    if (!validationErrors.profile_image) {
+      setProfileImage(selectedFile);
+    }
+  };
 
   const handleChangeUser = (event) => {
     setUserId(event.target.value);
@@ -76,6 +101,17 @@ function ValidationForm() {
             {validator.current && (
               validator.current.message('user_email', user_email, apiData.validationRules.user_email || {})
             )}
+          </span>
+          <input
+            autoComplete="off"
+            className="form-control mb-3"
+            name="profile_image"
+            type="file"
+            onChange={handleProfileImage}
+            placeholder="Upload profile Image"
+          />
+          <span style={{ color: 'red' }}>
+            {errors.profile_image}
           </span>
 
           <div>UserId = {user_id}</div>

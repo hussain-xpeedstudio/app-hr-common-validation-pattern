@@ -11,6 +11,7 @@ class ValidationController extends Controller
         $validationRules = [
             'user_id' => 'required|numeric|min:5|max:10',
             'user_email' => 'required|email',
+            'profile_image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
         
         $validationMessages = [
