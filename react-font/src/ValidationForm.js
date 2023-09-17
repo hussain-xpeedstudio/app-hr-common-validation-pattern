@@ -60,12 +60,17 @@ function ValidationForm() {
   const handleSave = () => {
     setUserId(user_id);
     setUserEmail(user_email);
-    if (validator.current.allValid()) {
+    setProfileImage(profile_image??null);
+
+    if (validator.current.allValid() && validator.current.fieldValid('profile_image')) {
+
       alert('Thanks for submitting the form');
     } else {
       alert('Your form is not valid');
-      validator.current.showMessageFor('user_email');
-      validator.current.showMessageFor('user_id');
+      // validator.current.showMessageFor('user_email');
+      // validator.current.showMessageFor('user_id');
+      // validator.current.showMessageFor('profile_image');
+      validator.current.showMessages();
     }
   };
 
@@ -108,7 +113,6 @@ function ValidationForm() {
             name="profile_image"
             type="file"
             onChange={handleProfileImage}
-            placeholder="Upload profile Image"
           />
           <span style={{ color: 'red' }}>
             {errors.profile_image}
